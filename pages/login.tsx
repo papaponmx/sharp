@@ -1,29 +1,39 @@
-import { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
+
+import Form from '../components/form'
+import Layout from '../components/layout'
+import { Magic } from 'magic-sdk'
 import Router from 'next/router'
 import { useUser } from '../lib/hooks'
-import Layout from '../components/layout'
-import Form from '../components/form'
 
-import { Magic } from 'magic-sdk'
+const { NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY } = process.env
+type SubmitEvent = { preventDefault: () => void; currentTarget: { email: { value: any } } }
+
 
 const Login = () => {
   useUser({ redirectTo: '/', redirectIfFound: true })
 
   const [errorMsg, setErrorMsg] = useState('')
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: SubmitEvent) {
     e.preventDefault()
 
     if (errorMsg) setErrorMsg('')
+
+    debugger
+    if(!NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY){
+      throw new Error('NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY is not defined')
+    }
 
     const body = {
       email: e.currentTarget.email.value,
     }
 
     try {
-      const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY)
+      const magic = new Magic(NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY)
       const didToken = await magic.auth.loginWithMagicLink({
         email: body.email,
+        redirectURI: `${window.location}.origin}/profile`,
       })
       const res = await fetch('/api/login', {
         method: 'POST',

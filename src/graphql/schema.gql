@@ -1,0 +1,17 @@
+type HealthData {
+  user: User @relation
+  weight: Float
+  height: Float
+}
+
+
+type User {
+  name: String! @unique
+  email: String!
+  healthData: HealthData
+}
+
+type Query {
+  user(email: String): User
+  healthData: HealthData
+}
