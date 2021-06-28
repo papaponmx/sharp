@@ -1,29 +1,39 @@
-import Iron from '@hapi/iron'
-import { MAX_AGE, setTokenCookie, getTokenCookie } from './auth-cookies'
+import { MAX_AGE, getTokenCookie, setTokenCookie } from './auth-cookies';
 
-const TOKEN_SECRET = process.env.TOKEN_SECRET
+import Iron from '@hapi/iron';
+import { NextApiRequest } from 'next';
+import { Session } from '../types/index';
 
-export async function setLoginSession(res, session) {
-  const createdAt = Date.now()
+const TOKEN_SECRET = process.env.TOKEN_SECRET;
+
+export async function setLoginSession(res: any, session: Session) {
+  if (!TOKEN_SECRET) {
+    throw new Error('TOKEN_SECRET is not defined');
+  }
+  const createdAt = Date.now();
   // Create a session object with a max age that we can validate later
-  const obj = { ...session, createdAt, maxAge: MAX_AGE }
-  const token = await Iron.seal(obj, TOKEN_SECRET, Iron.defaults)
+  const obj = { ...session, createdAt, maxAge: MAX_AGE };
+  const token = await Iron.seal(obj, TOKEN_SECRET, Iron.defaults);
 
-  setTokenCookie(res, token)
+  setTokenCookie(res, token);
 }
 
-export async function getLoginSession(req) {
-  const token = getTokenCookie(req)
+export async function getLoginSession(req: NextApiRequest) {
+  if (!TOKEN_SECRET) {
+    throw new Error('TOKEN_SECRET is not defined');
+  }
 
-  if (!token) return
+  const token = getTokenCookie(req);
 
-  const session = await Iron.unseal(token, TOKEN_SECRET, Iron.defaults)
-  const expiresAt = session.createdAt + session.maxAge * 1000
+  if (!token) return;
+
+  const session = await Iron.unseal(token, TOKEN_SECRET, Iron.defaults);
+  const expiresAt = session.createdAt + session.maxAge * 1000;
 
   // Validate the expiration date of the session
   if (Date.now() > expiresAt) {
-    throw new Error('Session expired')
+    throw new Error('Session expired');
   }
 
-  return session
+  return session;
 }

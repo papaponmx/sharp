@@ -1,11 +1,23 @@
-import { getLoginSession } from '../../lib/auth'
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const user = async (req, res) => {
-  const session = await getLoginSession(req)
+import { Session } from '../../types/index';
+import { getLoginSession } from '../../lib/auth';
+import { getUserByEmail } from '../../graphql/fetchers/index';
 
+// TODO: Move this to a fetcher
+const findUserByEmail = (email: string) => {};
+
+const user = async (req: NextApiRequest, res: NextApiResponse) => {
+  const session: Session = await getLoginSession(req);
+  // const userEmail: string = session.email;
+  const userEmail: string = 'notfound@gmail.com';
   // TODO: Get session.email and look up in FaunaDB
 
-  res.status(200).json({ user: session || null })
-}
+  const isUserAuth = await getUserByEmail(userEmail);
 
-export default user
+  debugger;
+
+  res.status(200).json({ user: session || null });
+};
+
+export default user;

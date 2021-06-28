@@ -1,12 +1,13 @@
 import Layout from '../components/layout'
 import { useUser } from '../lib/hooks'
 
-const Profile = () => {
+const Dashboard = () => {
   const user = useUser({ redirectTo: '/login' })
 
   return (
     <Layout>
-      <h1>Profile</h1>
+      <h1>Dashboard
+      </h1>
 
       {user && (
         <>
@@ -25,4 +26,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default Dashboard

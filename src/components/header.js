@@ -16,8 +16,8 @@ const Header = () => {
           {user ? (
             <>
               <li>
-                <Link href="/profile">
-                  <a>Profile</a>
+                <Link href="/dashboard">
+                  <a>Dashboard</a>
                 </Link>
               </li>
               <li>
