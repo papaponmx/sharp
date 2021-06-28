@@ -1,4 +1,5 @@
 import { GET_USER_BY_EMAIL_QUERY } from '../queries/users';
+import { UserByEmailResponse } from '../../types/index';
 const { FAUNA_GRAPHQL_URL, FAUNA_SECRET } = process.env;
 if (!FAUNA_SECRET) {
   throw new Error('FAUNA_SECRET is not set');
@@ -41,5 +42,10 @@ export const getUserByEmail = async (email: string) => {
       debugger;
     });
   // TODO: Add error handling
-  return user;
+  const res: UserByEmailResponse | null = user.data.userByEmail;
+  return res;
 };
+
+export const createUser = async () => {
+  
+}
