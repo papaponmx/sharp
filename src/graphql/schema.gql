@@ -4,14 +4,12 @@ type HealthData {
   height: Float
 }
 
-
 type User {
-  name: String! @unique
-  email: String!
+  name: String!
+  email: String! @unique
   healthData: HealthData
 }
 
 type Query {
-  user(email: String): User
-  healthData: HealthData
+  userByEmail(email: String!): User
 }
