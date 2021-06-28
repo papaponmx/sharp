@@ -3,8 +3,9 @@ module.exports = {
   printWidth: 80,
   endOfLine: 'auto',
   arrowParens: 'avoid',
-  trailingComma: 'always',
+  trailingComma: 'all',
   semi: true,
+  jsxBracketSameLine: false,
   useTabs: false,
   singleQuote: true,
   bracketSpacing: true
