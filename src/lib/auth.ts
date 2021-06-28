@@ -18,7 +18,7 @@ export async function setLoginSession(res: any, session: Session) {
   setTokenCookie(res, token);
 }
 
-export async function getLoginSession(req: NextApiRequest) {
+export const getLoginSession = async (req: NextApiRequest) => {
   if (!TOKEN_SECRET) {
     throw new Error('TOKEN_SECRET is not defined');
   }
