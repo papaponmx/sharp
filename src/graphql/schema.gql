@@ -5,7 +5,7 @@ type HealthData {
 }
 
 type User {
-  name: String!
+  name: String
   email: String! @unique
   healthData: HealthData
 }
