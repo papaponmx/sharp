@@ -1,5 +1,5 @@
 import Layout from '../components/layout';
-import { useUser } from '../lib/hooks';
+import { useUser } from '../hooks';
 
 const Home = () => {
   const user = useUser();

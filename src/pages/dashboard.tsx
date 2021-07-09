@@ -1,10 +1,9 @@
 import Layout from '../components/layout';
-import { useUser } from '../lib/hooks';
+import { useUser } from '../hooks/index';
 
 const Dashboard = () => {
   const user = useUser({ redirectTo: '/dashboard' });
 
-  console.assert(user, '😩 ', user);
 
   return (
     <Layout>

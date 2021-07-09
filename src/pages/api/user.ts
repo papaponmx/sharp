@@ -47,7 +47,8 @@ const user = async (request: NextApiRequest, response: NextApiResponse) => {
 
   // TODO: Handle error
   // res.status(404).json({ user: null })
-  response.status(200).json(JSON.stringify(generatedResponse));
+  response.status(200).json(generatedResponse);
+  // response.status(200).json({ user: generatedResponse });
 };
 
 export default user;

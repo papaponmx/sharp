@@ -4,7 +4,7 @@ import Form from '../components/form';
 import Layout from '../components/layout';
 import { Magic } from 'magic-sdk';
 import Router from 'next/router';
-import { useUser } from '../lib/hooks';
+import { useUser } from '../hooks';
 
 const { NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY } = process.env;
 type SubmitEvent = {
@@ -13,7 +13,7 @@ type SubmitEvent = {
 };
 
 const Login = () => {
-  useUser({ redirectTo: '/', redirectIfFound: '/' });
+  useUser({ redirectTo: '/', redirectIfFound: '/dashboard' });
 
   const [errorMessage, setErrorMessage] = useState('');
 

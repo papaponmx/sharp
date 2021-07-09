@@ -5,26 +5,26 @@ import useSWR from 'swr';
 const fetcher = (url: string) =>
   fetch(url)
     .then(r => r.json())
-    .then(data => {
-      return { user: data?.user ?? undefined };
+    .catch(_err => {
+      throw new Error('😕 Error fetching user data');
     });
 
-export function useUser({
-  redirectTo,
-  redirectIfFound,
-}: {
+export type UseUserParams = {
   redirectTo?: string;
   redirectIfFound?: string;
-} = {}): any {
+};
+
+/***
+ * TODO: Document this hook
+ */
+export function useUser({ redirectTo, redirectIfFound }: UseUserParams = {}) {
   const { data, error } = useSWR('/api/user', fetcher);
-  const user = data?.user;
+  const user = data;
   const finished = Boolean(data);
-  const hasUser = Boolean(user);
+  const hasUser = Boolean(data.magicSession);
 
   useEffect(() => {
-    if (!redirectTo || !finished) {
-      return;
-    }
+    if (!redirectTo || !finished) return;
     if (
       // If redirectTo is set, redirect if the user was not found.
       (redirectTo && !redirectIfFound && !hasUser) ||
@@ -35,5 +35,5 @@ export function useUser({
     }
   }, [redirectTo, redirectIfFound, finished, hasUser]);
 
-  return error ? undefined : user;
+  return error ? null : user;
 }
