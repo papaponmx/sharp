@@ -18,6 +18,12 @@ export async function setLoginSession(res: any, session: Session) {
   setTokenCookie(res, token);
 }
 
+/**
+ *
+ * @description Unseals session and returns Magic session metadata
+ * @returns Magic Meta Data: An object containing the issuer, email and cryptographic public address of the authenticated user.
+ * See [Magic Docs for reference](https://magic.link/docs/client-sdk/web/api-reference#getmetadata)
+ */
 export const getLoginSession = async (req: NextApiRequest) => {
   if (!TOKEN_SECRET) {
     throw new Error('TOKEN_SECRET is not defined');
