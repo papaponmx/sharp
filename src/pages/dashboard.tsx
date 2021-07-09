@@ -1,10 +1,10 @@
-import { GetServerSidePropsContext } from 'next';
 import Layout from '../components/layout';
-import { magic } from '../lib/magic';
 import { useUser } from '../lib/hooks';
 
 const Dashboard = () => {
   const user = useUser({ redirectTo: '/dashboard' });
+
+  console.assert(user, '😩 ', user);
 
   return (
     <Layout>
@@ -12,8 +12,8 @@ const Dashboard = () => {
 
       {user && (
         <>
-          <p>Your session:</p>
-          <pre>{JSON.stringify(user, undefined, 2)}</pre>
+          <p>{`Hello ${user?.userProfile?.name}`}</p>
+          <pre>{JSON.stringify(user, null, 2)}</pre>
         </>
       )}
 
@@ -28,26 +28,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
-  const isLoggedIn = await magic?.user?.isLoggedIn();
-  console.log('🙄', isLoggedIn);
-
-  const user = await fetch('http://localhost:3000/api/user')
-    .then(r => r.json())
-    .then(data => {
-      console.log('👀', data);
-      debugger;
-      return data;
-      // return { user: data?.user ?? undefined };
-    });
-
-  console.log('👀', user);
-  debugger;
-
-  return {
-    props: {}, // Will be passed to the page component as props
-  };
-};
