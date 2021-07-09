@@ -1,7 +1,7 @@
-import Head from 'next/head'
-import Header from './header'
+import Head from 'next/head';
+import Header from './header';
 
-const Layout = (props) => (
+const Layout = props => (
   <>
     <Head>
       <title>Magic</title>
@@ -52,6 +52,6 @@ const Layout = (props) => (
       }
     `}</style>
   </>
-)
+);
 
-export default Layout
+export default Layout;

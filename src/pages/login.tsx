@@ -1,63 +1,66 @@
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useState } from 'react';
 
-import Form from '../components/form'
-import Layout from '../components/layout'
-import { Magic } from 'magic-sdk'
-import Router from 'next/router'
-import { useUser } from '../lib/hooks'
+import Form from '../components/form';
+import Layout from '../components/layout';
+import { Magic } from 'magic-sdk';
+import Router from 'next/router';
+import { useUser } from '../lib/hooks';
 
-const { NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY } = process.env
-type SubmitEvent = { preventDefault: () => void; currentTarget: { email: { value: any } } }
-
+const { NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY } = process.env;
+type SubmitEvent = {
+  preventDefault: () => void;
+  currentTarget: { email: { value: any } };
+};
 
 const Login = () => {
-  useUser({ redirectTo: '/', redirectIfFound: true })
+  useUser({ redirectTo: '/', redirectIfFound: '/' });
 
-  const [errorMsg, setErrorMsg] = useState('')
+  const [errorMessage, setErrorMessage] = useState('');
 
-  async function handleSubmit(e: SubmitEvent) {
-    e.preventDefault()
+  async function handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
 
-    if (errorMsg) setErrorMsg('')
+    if (errorMessage) setErrorMessage('');
 
-    debugger
-    if(!NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY){
-      throw new Error('NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY is not defined')
+    debugger;
+    if (!NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY) {
+      throw new Error('NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY is not defined');
     }
 
     const body = {
-      email: e.currentTarget.email.value,
-    }
+      email: event.currentTarget.email.value,
+    };
 
     try {
-      const magic = new Magic(NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY)
+      const magic = new Magic(NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY);
       const didToken = await magic.auth.loginWithMagicLink({
         email: body.email,
         redirectURI: `${window.location}.origin}/profile`,
-      })
-      const res = await fetch('/api/login', {
+      });
+      const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + didToken,
         },
         body: JSON.stringify(body),
-      })
-      if (res.status === 200) {
-        Router.push('/')
+      });
+      if (response.status === 200) {
+        Router.push('/dashboard');
       } else {
-        throw new Error(await res.text())
+        throw new Error(await response.text());
       }
     } catch (error) {
-      console.error('An unexpected error happened occurred:', error)
-      setErrorMsg(error.message)
+      // eslint-disable-next-line no-console
+      console.error('An unexpected error happened occurred:', error);
+      setErrorMessage(error.message);
     }
   }
 
   return (
     <Layout>
       <div className="login">
-        <Form errorMessage={errorMsg} onSubmit={handleSubmit} />
+        <Form errorMessage={errorMessage} onSubmit={handleSubmit} />
       </div>
       <style jsx>{`
         .login {
@@ -69,7 +72,7 @@ const Login = () => {
         }
       `}</style>
     </Layout>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

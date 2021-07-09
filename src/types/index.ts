@@ -21,3 +21,12 @@ export type UserByEmailResponse = {
   healthData: HealthData;
   name: string;
 };
+
+export type CreateUserInput = {
+  _id?: string;
+  name?: string;
+  email: string;
+  healthData?: {
+    create?: HealthData;
+  };
+};

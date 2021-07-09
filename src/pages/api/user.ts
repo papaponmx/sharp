@@ -1,20 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { createUser, getUserByEmail } from '../../db/index';
 
 import { Session } from '../../types/index';
 import { getLoginSession } from '../../lib/auth';
-import { getUserByEmail } from '../../graphql/fetchers/index';
 
-const user = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session: Session = await getLoginSession(req);
-  const userEmail: string = session.email;
-  // TODO: Get session.email and look up in FaunaDB
+const user = async (request: NextApiRequest, response: NextApiResponse) => {
+  const session: Session = await getLoginSession(request);
+  const userEmail: string = session?.email;
+  // TODO: Validate if user exists
+  // const userEmail: string = 'john@mailinator.com';
 
   const userByEmail = await getUserByEmail(userEmail);
 
   if (!userByEmail) {
-    // TODO: CreateUser
+    const createdUser = await createUser({ email: userEmail });
+    console.log('👀 User', createdUser);
   }
-  debugger;
   // TODO: Handle error
   // res.status(404).json({ user: null })
   // return

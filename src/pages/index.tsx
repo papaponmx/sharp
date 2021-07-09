@@ -1,8 +1,8 @@
-import Layout from '../components/layout'
-import { useUser } from '../lib/hooks'
+import Layout from '../components/layout';
+import { useUser } from '../lib/hooks';
 
 const Home = () => {
-  const user = useUser()
+  const user = useUser();
 
   return (
     <Layout>
@@ -17,8 +17,8 @@ const Home = () => {
           session is being used through a token stored in a cookie.
         </li>
         <li>
-          Click Logout and try to go to Profile again. You&apos;ll get redirected to
-          Login.
+          Click Logout and try to go to Profile again. You&apos;ll get
+          redirected to Login.
         </li>
       </ol>
 
@@ -51,7 +51,7 @@ const Home = () => {
         }
       `}</style>
     </Layout>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

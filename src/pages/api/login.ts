@@ -4,23 +4,30 @@ import { Session } from '../../types/index';
 import { magic } from '../../lib/magic';
 import { setLoginSession } from '../../lib/auth';
 
-export default async function login(req: NextApiRequest, res: NextApiResponse) {
-  if (!req.headers.authorization) {
-    res
+type AuthRequest = {
+  Authorization: string;
+};
+
+export default async function login(
+  request: NextApiRequest,
+  response: NextApiResponse,
+) {
+  if (!request.headers.authorization) {
+    response
       .status(400)
       .end('Bad Request: Authorization header is missing in request headers');
     return;
   }
 
   try {
-    const didToken = req.headers.authorization.substr(7);
+    const didToken = request.headers.authorization.slice(7);
     const metadata = await magic.users.getMetadataByToken(didToken);
     const session: Session = { ...metadata };
 
-    await setLoginSession(res, session);
+    await setLoginSession(response, session);
 
-    res.status(200).send({ done: true });
+    response.status(200).send({ done: true });
   } catch (error) {
-    res.status(error.status || 500).end(error.message);
+    response.status(error.status || 500).end(error.message);
   }
 }

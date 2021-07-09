@@ -36,6 +36,9 @@ export const parseCookies = (req: NextApiRequest) => {
   return parse(cookie || '');
 };
 
+/***
+ * Extract token cookie from API request
+ */
 export const getTokenCookie = (req: NextApiRequest) => {
   const cookies = parseCookies(req);
   return cookies[TOKEN_NAME];
