@@ -22,7 +22,6 @@ const Login = () => {
 
     if (errorMessage) setErrorMessage('');
 
-    debugger;
     if (!NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY) {
       throw new Error('NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY is not defined');
     }
