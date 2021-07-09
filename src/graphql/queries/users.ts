@@ -20,4 +20,4 @@ export const CREATE_USER_MUTATION = `mutation CreateUser($userInput: UserInput!)
       height
     }
   }
-}`
+}`;

@@ -36,4 +36,4 @@ export const getLoginSession = async (req: NextApiRequest) => {
   }
 
   return session;
-}
+};

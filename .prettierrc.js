@@ -8,5 +8,5 @@ module.exports = {
   jsxBracketSameLine: false,
   useTabs: false,
   singleQuote: true,
-  bracketSpacing: true
+  bracketSpacing: true,
 };
