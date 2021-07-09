@@ -1,12 +1,28 @@
-import { useEffect } from 'react';
 import Router from 'next/router';
+import { useEffect } from 'react';
 import useSWR from 'swr';
 
-const fetcher = url => fetch(url).then(r => r.json());
+const fetcher = (url: string) => fetch(url).then(r => r.json());
 
-export function useUser({ redirectTo, redirectIfFound } = {}) {
+export type UseUserParams = {
+  redirectTo: string;
+  redirectIfFound: string;
+};
+
+/***
+ * TODO: Document this hook
+ */
+export const useUser = ({
+  redirectTo,
+  redirectIfFound,
+}: UseUserParams): {
+  user: any; // TODO: Type this
+  error: any;
+  mutate: (data?: any, shouldRevalidate?: boolean | undefined) => Promise<any>;
+} => {
   const { data, error, mutate } = useSWR('/api/user', fetcher);
   const user = data?.user;
+
   const finished = Boolean(data);
   const hasUser = Boolean(user);
 
@@ -23,4 +39,4 @@ export function useUser({ redirectTo, redirectIfFound } = {}) {
   }, [redirectTo, redirectIfFound, finished, hasUser]);
 
   return { user, error, mutate };
-}
+};
