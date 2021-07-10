@@ -25,11 +25,11 @@ export type UserResponse = {
 };
 
 const generateUserResponse = (
-  magicSession: MagicSession,
-  userData: UserByEmailResponse,
+  session: MagicSession,
+  userProfile: UserByEmailResponse,
 ): UserResponse => ({
-  session: magicSession,
-  userProfile: userData,
+  session,
+  userProfile,
 });
 
 const user = async (request: NextApiRequest, response: NextApiResponse) => {

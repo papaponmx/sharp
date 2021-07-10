@@ -1,8 +1,10 @@
 import Router from 'next/router';
+import { UserByEmailResponse } from '../types/index';
+import { UserResponse } from '../pages/api/user';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 
-const fetcher = (url: string) =>
+const fetcher = (url: string): Promise<UserResponse> =>
   fetch(url)
     .then(r => r.json())
     .catch(_err => {
@@ -21,7 +23,7 @@ export function useUser({ redirectTo, redirectIfFound }: UseUserParams = {}) {
   const { data, error } = useSWR('/api/user', fetcher);
   const user = data;
   const finished = Boolean(data);
-  const hasUser = Boolean(data.magicSession);
+  const hasUser = Boolean(data?.session);
 
   useEffect(() => {
     if (!redirectTo || !finished) return;

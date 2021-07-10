@@ -4,7 +4,6 @@ import { useUser } from '../hooks/index';
 const Dashboard = () => {
   const user = useUser({ redirectTo: '/dashboard' });
 
-
   return (
     <Layout>
       <h1>Dashboard</h1>
@@ -12,7 +11,6 @@ const Dashboard = () => {
       {user && (
         <>
           <p>{`Hello ${user?.userProfile?.name}`}</p>
-          <pre>{JSON.stringify(user, null, 2)}</pre>
         </>
       )}
 
