@@ -1,5 +1,4 @@
 import Router from 'next/router';
-import { UserByEmailResponse } from '../types/index';
 import { UserResponse } from '../pages/api/user';
 import { useEffect } from 'react';
 import useSWR from 'swr';

@@ -1,7 +1,6 @@
 import { FAUNA_GRAPHQL_URL, faunaDefaultOptions } from '.';
 
 import { GET_USER_BY_EMAIL_QUERY } from '../graphql/queries/users';
-import { JSONLog } from '../utils/index';
 import { UserByEmailResponse } from '../types';
 
 /**

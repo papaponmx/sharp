@@ -11,6 +11,7 @@ export type Session = {
 };
 
 export type HealthData = {
+  _id: string;
   height: number;
   weight: number;
 };
@@ -30,3 +31,8 @@ export type CreateUserInput = {
     create?: HealthData;
   };
 };
+
+export type UpdateHealthDataInput = {
+  _id: string,
+  healthData: HealthData
+}

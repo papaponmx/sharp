@@ -1,13 +1,12 @@
+import { CreateUserInput, UserByEmailResponse } from '../types';
+import { FAUNA_GRAPHQL_URL, faunaDefaultOptions } from '.';
+
+import { CREATE_USER_MUTATION } from '../graphql/queries/users';
+
 /**
  * @description Create a user on FaunaDB
  * @param createUserInput
  */
-
-import { CreateUserInput, UserByEmailResponse } from "../types";
-import { FAUNA_GRAPHQL_URL, faunaDefaultOptions } from ".";
-
-import { CREATE_USER_MUTATION } from "../graphql/queries/users";
-
 export const createUser = async (userInput: CreateUserInput) => {
   if (!FAUNA_GRAPHQL_URL) {
     throw new Error('FAUNA_GRAPHQL_URL is not defined');
