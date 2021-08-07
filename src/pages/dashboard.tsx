@@ -2,7 +2,7 @@ import Layout from '../components/layout';
 import { useUser } from '../hooks/index';
 
 const Dashboard = () => {
-  const user = useUser({ redirectTo: '/dashboard' });
+  const user = useUser({ redirectTo: '/login', redirectIfFound: '/login' });
 
   return (
     <Layout>

@@ -1,8 +1,8 @@
-import { MAX_AGE, getTokenCookie, setTokenCookie } from './auth-cookies';
-
 import Iron from '@hapi/iron';
 import { NextApiRequest } from 'next';
+
 import { Session } from '../types/index';
+import { MAX_AGE, getTokenCookie, setTokenCookie } from './auth-cookies';
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
