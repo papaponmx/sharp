@@ -1,45 +1,47 @@
-import Iron from '@hapi/iron';
-import { NextApiRequest } from 'next';
+import { goto } from '$app/navigation';
+import { Magic } from 'magic-sdk';
+import { writable } from 'svelte/store';
 
-import { Session } from '../types/index';
-import { MAX_AGE, getTokenCookie, setTokenCookie } from './auth-cookies';
+let magic;
 
-const TOKEN_SECRET = process.env.TOKEN_SECRET;
+export const store = writable({
+	loading: false,
+	user: null
+});
 
-export async function setLoginSession(res: any, session: Session) {
-  if (!TOKEN_SECRET) {
-    throw new Error('TOKEN_SECRET is not defined');
-  }
-  const createdAt = Date.now();
-  // Create a session object with a max age that we can validate later
-  const obj = { ...session, createdAt, maxAge: MAX_AGE };
-  const token = await Iron.seal(obj, TOKEN_SECRET, Iron.defaults);
-
-  setTokenCookie(res, token);
+function createMagic() {
+	return magic || new Magic(
+		import.meta.env.VITE_MAGIC_PUBLIC_KEY as string);
 }
 
-/**
- *
- * @description Unseals session and returns Magic session metadata
- * @returns Magic Meta Data: An object containing the issuer, email and cryptographic public address of the authenticated user.
- * See [Magic Docs for reference](https://magic.link/docs/client-sdk/web/api-reference#getmetadata)
- */
-export const getLoginSession = async (req: NextApiRequest) => {
-  if (!TOKEN_SECRET) {
-    throw new Error('TOKEN_SECRET is not defined');
-  }
+export async function login(email: string): Promise<void> {
+	const magic = createMagic();
 
-  const token = getTokenCookie(req);
+	const didToken = await magic.auth.loginWithMagicLink({ email });
 
-  if (!token) return;
+	// Validate the did token on the server
+	const res = await fetch('/api/auth/login', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${didToken}`
+		}
+	});
 
-  const session = await Iron.unseal(token, TOKEN_SECRET, Iron.defaults);
-  const expiresAt = session.createdAt + session.maxAge * 1000;
+	if (res.ok) {
+		const data = await res.json();
+		store.set({
+			loading: false,
+			user: data.user
+		});
+	}
+}
 
-  // Validate the expiration date of the session
-  if (Date.now() > expiresAt) {
-    throw new Error('Session expired');
-  }
-
-  return session;
-};
+export async function logout(): Promise<void> {
+	await fetch('/api/auth/logout');
+	store.set({
+		loading: false,
+		user: null
+	});
+	goto('/auth');
+}
