@@ -1,14 +1,16 @@
 import type { Request, Response } from '@sveltejs/kit';
+
 import { createSessionCookie } from './_utils';
 
-export async function get(req: Request): Promise<Response> {
+export const get = async(req: Request): Promise<Response> => {
 	try {
 		if (!req.locals.user) {
 			return {
+				headers: {},
 				status: 200,
-				body: {
+				body: JSON.stringify({
 					user: null
-				}
+				})
 			};
 		}
 
@@ -22,19 +24,20 @@ export async function get(req: Request): Promise<Response> {
 			headers: {
 				'set-cookie': cookie
 			},
-			body: {
+			body: JSON.stringify({
 				user
-			}
+			})
 		};
 	} catch (err) {
 		console.log(err);
 		return {
 			status: 500,
-			body: {
+			headers: {},
+			body: JSON.stringify({
 				error: {
 					message: 'Internal Server Error'
 				}
-			}
+			})
 		};
 	}
 }
