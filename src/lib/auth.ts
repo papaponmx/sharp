@@ -6,7 +6,7 @@ let magic;
 
 export const store = writable({
 	loading: false,
-	user: null
+	user: null,
 });
 
 function createMagic() {

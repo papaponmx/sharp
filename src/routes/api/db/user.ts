@@ -1,20 +1,24 @@
-
+import type { RequestHandler } from '@sveltejs/kit'
+import { getUserByEmail } from '$lib/db/getUserByEmail'
 
 /**
  * @type {import('@sveltejs/kit').RequestHandler}
  */
-export const get: import('@sveltejs/kit').RequestHandler = async({ params })=> {
-	// the `slug` parameter is available because this file
-	// is called [slug].json.js
-	const { slug } = params;
+export const post: RequestHandler = async(request)=> {
 
-	// const article = await db.get(slug);
+	console.log('🧐', request);
+
+	const userByEmail = await getUserByEmail('jaime.rios@hey.com')
+
+  // TODO: Use this to validate token https://magic.link/docs/admin-sdk/node/api-reference#validate
+
+	console.log(userByEmail);
 
 		return {
-			body: {
+			body: JSON.stringify({
 				article: {
           title: 'This is my article'
         }
-			}
+			})
 	}
 }
