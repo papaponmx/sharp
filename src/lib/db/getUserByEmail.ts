@@ -1,6 +1,7 @@
+import { FAUNA_GRAPHQL_URL } from '$lib/config';
 import { GET_USER_BY_EMAIL_QUERY } from '$lib/graphql/queries';
 
-import { FAUNA_GRAPHQL_URL, faunaDefaultOptions } from '.';
+import { faunaDefaultOptions } from '.';
 
 /**
  * @description Query user by email to FaunaDB

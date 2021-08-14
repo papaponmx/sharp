@@ -1,9 +1,4 @@
-
-export const {FAUNA_SECRET, FAUNA_GRAPHQL_URL} = process.env
-
-if (!FAUNA_SECRET || FAUNA_GRAPHQL_URL === undefined) {
-  throw new Error('FAUNA_SECRET is not set');
-}
+import { FAUNA_SECRET } from '$lib/config';
 
 export const Authorization = `Bearer ${FAUNA_SECRET}`;
 
