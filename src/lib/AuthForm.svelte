@@ -9,7 +9,7 @@
 		try {
 			submitting = true;
 			await auth.login(email);
-			goto('/todos');
+			goto('/');
 		} catch (err) {
 			submitting = false;
 			console.log(err);
