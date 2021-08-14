@@ -29,7 +29,7 @@ export const get = async(req: Request): Promise<Response> => {
 			})
 		};
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 		return {
 			status: 500,
 			headers: {},

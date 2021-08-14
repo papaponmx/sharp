@@ -1,4 +1,5 @@
 import type { Request, Response } from '@sveltejs/kit';
+
 import { magic } from './_magic';
 import { createSessionCookie } from './_utils';
 
@@ -14,19 +15,20 @@ export async function post(req: Request): Promise<Response> {
 			headers: {
 				'set-cookie': cookie
 			},
-			body: {
+			body: JSON.stringify({
 				user: metadata
-			}
+			})
 		};
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 		return {
+			headers: {},
 			status: 500,
-			body: {
+			body: JSON.stringify({
 				error: {
 					message: 'Internal Server Error'
 				}
-			}
+			})
 		};
 	}
 }
