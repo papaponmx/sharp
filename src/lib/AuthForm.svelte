@@ -12,7 +12,7 @@
 			goto('/');
 		} catch (err) {
 			submitting = false;
-			console.log(err);
+			console.error('Error submitting auth form', err);
 		}
 	}
 </script>
