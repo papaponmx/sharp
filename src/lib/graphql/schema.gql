@@ -4,11 +4,24 @@ type HealthData {
   weight: Float
 }
 
+type WorkoutDay {
+  date: Date @unique
+  notes: String
+  didWorkout: Boolean!
+  workoutHistory: WorkoutHistory @relation
+}
+
+type WorkoutHistory {
+  days: [WorkoutDay]
+}
+
 type User {
   email: String! @unique
-  healthData: HealthData
+  healthData: HealthData @relation
   issuer: String! @unique
   name: String
+  singUpDate: Date!
+  userType: String!
 }
 
 type Query {
