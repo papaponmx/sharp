@@ -26,6 +26,8 @@ export const getUserByEmail = async (
     },
   });
 
+
+
   const user = await fetch(FAUNA_GRAPHQL_URL, {
     ...faunaDefaultOptions,
     body,
@@ -36,13 +38,13 @@ export const getUserByEmail = async (
     });
 
   if (!user.data) {
+
     throw new Error(
-      'Error executing GET_USER_BY_EMAIL_QUERY No data in response',
-    );
+      'Error executing GET_USER_BY_EMAIL_QUERY No data in response: ' + user,
+
+      );
   }
 
-  console.log(!!user.data.userByEmail && '✅ getUserByEmail');
-  // JSONLog(user.data.userByEmail);
   const userByEmail = user?.data?.userByEmail;
   return userByEmail;
 };

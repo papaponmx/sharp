@@ -1,4 +1,5 @@
 import type { Request, Response } from '@sveltejs/kit';
+
 import { magic } from './_magic';
 import { removeSessionCookie } from './_utils';
 
@@ -6,12 +7,13 @@ export async function get(req: Request): Promise<Response> {
 	try {
 		if (!req.locals.user) {
 			return {
+				headers: {},
 				status: 401,
-				body: {
+				body: JSON.stringify({
 					error: {
 						message: 'Unauthorized'
 					}
-				}
+				})
 			};
 		}
 
@@ -20,7 +22,7 @@ export async function get(req: Request): Promise<Response> {
 		try {
 			await magic.users.logoutByIssuer(req.locals.user.issuer);
 		} catch (err) {
-			console.log('Magic session already expired');
+			console.error('Magic session already expired');
 		}
 
 		return {
@@ -28,16 +30,17 @@ export async function get(req: Request): Promise<Response> {
 			headers: {
 				'set-cookie': cookie
 			},
-			body: {}
+			body: JSON.stringify({})
 		};
 	} catch (err) {
 		return {
+		headers: {},
 			status: 401,
-			body: {
+			body: JSON.stringify({
 				error: {
 					message: 'Unauthorized'
 				}
-			}
+			})
 		};
 	}
 }

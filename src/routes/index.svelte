@@ -1,6 +1,8 @@
 <script lang="ts" context="module">
 	import { get } from 'svelte/store';
-	import { store as authStore } from '$lib/auth';
+	import { createMagic, store as authStore } from '$lib/auth';
+
+	import { Magic } from 'magic-sdk';
 
 	export function load() {
 		const { user } = get(authStore);
@@ -16,8 +18,38 @@
 	}
 </script>
 
-<script>
+<script lang="ts">
 	import Protected from '$lib/Protected.svelte';
+	let userData;
+
+	const getUserData = async (issuer) => {
+		try {
+			return (
+				issuer &&
+				fetch('/api/db/user', {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${issuer}`
+					}
+				})
+					.then((res) => {
+						res.json();
+					})
+					.then((res) => {
+						userData = res;
+					})
+			);
+		} catch {
+			// Handle errors if required!
+		}
+	};
+
+	$: auth = $authStore;
+	$: {
+		if (auth.user && !userData) {
+			getUserData(auth.user.issuer);
+		}
+	}
 </script>
 
 <svelte:head>

@@ -1,24 +1,42 @@
-import type { RequestHandler } from '@sveltejs/kit'
-import { getUserByEmail } from '$lib/db/getUserByEmail'
+import { getUserByEmail } from '$lib/adapters';
+
+import { magic } from '../auth/_magic';
 
 /**
  * @type {import('@sveltejs/kit').RequestHandler}
  */
-export const post: RequestHandler = async(request)=> {
+export const get = async(req: Request): Promise<any> => {
+	try {
+  const issuer = magic.utils.parseAuthorizationHeader(req.headers['authorization']);
 
-	console.log('🧐', request);
+
+	const metadata = await magic.users.getMetadataByIssuer(issuer);
+
+	console.log('WTB', metadata);
 
 	const userByEmail = await getUserByEmail('jaime.rios@hey.com')
 
-  // TODO: Use this to validate token https://magic.link/docs/admin-sdk/node/api-reference#validate
+		// TODO: Use this to validate token https://magic.link/docs/admin-sdk/node/api-reference#validate
 
-	console.log(userByEmail);
+		console.log(userByEmail);
 
 		return {
+			status: 200,
+			Headers: {},
 			body: JSON.stringify({
-				article: {
-          title: 'This is my article'
-        }
+				user: userByEmail
 			})
+		};
+	} catch (err) {
+		console.error(err);
+		return {
+		Headers: {},
+			status: 500,
+			body: JSON.stringify({
+				error: {
+					message: 'Internal Server Error'
+				}
+			})
+		};
 	}
 }

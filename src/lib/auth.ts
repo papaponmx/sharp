@@ -7,9 +7,11 @@ let magic;
 export const store = writable({
 	loading: false,
 	user: null,
+	token: null,
 });
 
-function createMagic() {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const createMagic = () => {
 	return magic || new Magic(
 		import.meta.env.VITE_MAGIC_PUBLIC_KEY as string);
 }
@@ -32,7 +34,8 @@ export async function login(email: string): Promise<void> {
 		const data = await res.json();
 		store.set({
 			loading: false,
-			user: data.user
+			user: data.user,
+			token: didToken,
 		});
 	}
 }
@@ -41,7 +44,8 @@ export async function logout(): Promise<void> {
 	await fetch('/api/auth/logout');
 	store.set({
 		loading: false,
-		user: null
+		user: null,
+		token: null,
 	});
 	goto('/auth');
 }

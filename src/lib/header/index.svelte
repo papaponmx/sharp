@@ -26,6 +26,7 @@
 			<li class:active={$page.path === '/todos'}><a sveltekit:prefetch href="/todos">Todos</a></li>
 			{#if auth && auth.user}
 				<li class:active={$page.path === '/auth'}>
+					<!-- svelte-ignore a11y-invalid-attribute -->
 					<a href="javascript:void(0)" on:click|preventDefault={handleLogout}>Logout</a>
 				</li>
 			{:else}

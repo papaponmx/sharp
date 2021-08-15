@@ -10,4 +10,4 @@ export const faunaDefaultOptions = {
   },
 };
 
-export * from './getUserById'
+export * from './user-by-id'
