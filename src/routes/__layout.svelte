@@ -6,7 +6,8 @@
 		const { user } = await res.json();
 		authStore.set({
 			loading: false,
-			user
+			user,
+			token: null
 		});
 		return {
 			status: 200,
