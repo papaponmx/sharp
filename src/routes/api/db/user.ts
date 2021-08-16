@@ -7,13 +7,13 @@ import { magic } from '../auth/_magic';
  */
 export const get = async(req: Request): Promise<any> => {
 	try {
-  const issuer = magic.utils.parseAuthorizationHeader(req.headers['authorization']);
+  const token = magic.utils.parseAuthorizationHeader(req.headers['authorization']);
+
+	await magic.token.validate(token);
+	const {email} = await magic.users.getMetadataByToken(token);
 
 
-	const metadata = await magic.users.getMetadataByIssuer(issuer);
-
-
-	const userByEmail = await getUserByEmail('jaime.rios@hey.com')
+	const userByEmail = await getUserByEmail(email)
 
 		// TODO: Use this to validate token https://magic.link/docs/admin-sdk/node/api-reference#validate
 
