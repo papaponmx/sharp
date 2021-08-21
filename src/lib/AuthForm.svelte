@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as auth from '$lib/auth';
+	import * as auth from '$lib/stores/auth';
 	import { goto } from '$app/navigation';
 
 	let email = '';

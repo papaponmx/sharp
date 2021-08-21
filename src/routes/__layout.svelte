@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { store as authStore } from '$lib/auth';
+	import { store as authStore } from '$lib/stores/auth';
 
 	export async function load({ fetch }) {
 		const res = await fetch('/api/auth/user');

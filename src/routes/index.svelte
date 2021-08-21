@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Protected from '$lib/Protected.svelte';
-	import { store as authStore } from '$lib/auth';
+	import { store as authStore } from '$lib/stores/auth';
 
 	let UserProfile;
 	const fetchUser = (issuer) =>

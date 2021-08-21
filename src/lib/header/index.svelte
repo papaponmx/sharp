@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import logo from './svelte-logo.svg';
-	import { store as authStore, logout } from '../auth';
+	import { store as authStore, logout } from '../stores/auth';
 
 	$: auth = $authStore;
 

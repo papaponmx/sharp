@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { store as authStore } from './auth';
+	import { store as authStore } from './stores/auth';
 
 	$: auth = $authStore;
 </script>
