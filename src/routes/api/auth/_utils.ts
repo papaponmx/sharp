@@ -1,8 +1,9 @@
-import { serialize } from 'cookie';
-import { ENCRYPTION_SECRET, SESSION_LENGTH_MS, SESSION_NAME } from '$lib/config';
 import Iron from '@hapi/iron';
+import type { MagicUserMetadata } from '@magic-sdk/admin';
+import { ENCRYPTION_SECRET, SESSION_LENGTH_MS, SESSION_NAME } from '$lib/config';
+import { serialize } from 'cookie';
 
-async function encrypt(data): Promise<string> {
+async function encrypt(data: MagicUserMetadata): Promise<string> {
 	return data && Iron.seal(data, ENCRYPTION_SECRET, Iron.defaults);
 }
 
@@ -10,7 +11,7 @@ async function decrypt<T>(data: string): Promise<T> {
 	return data && Iron.unseal(data, ENCRYPTION_SECRET, Iron.defaults);
 }
 
-export async function createSessionCookie(data: any): Promise<string> {
+export async function createSessionCookie(data: MagicUserMetadata): Promise<string> {
 	const session = await encrypt(data);
 
 	return serialize(SESSION_NAME, session, {

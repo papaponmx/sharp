@@ -1,6 +1,7 @@
-import cookie from 'cookie';
 import type { Handle } from '@sveltejs/kit';
 import { SESSION_NAME } from '$lib/config';
+import cookie from 'cookie';
+
 import { getSession } from './routes/api/auth/_utils';
 
 export const handle: Handle = async ({ request, resolve }) => {

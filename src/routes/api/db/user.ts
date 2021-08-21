@@ -1,22 +1,15 @@
 import { getUserByEmail } from '$lib/adapters';
 
-import { magic } from '../auth/_magic';
+import { magic } from '../auth/_magic'
 
 /**
  * @type {import('@sveltejs/kit').RequestHandler}
  */
-export const get = async(req: Request): Promise<any> => {
+export const post = async(request: { body: string; }): Promise<unknown> => {
 	try {
-  const token = magic.utils.parseAuthorizationHeader(req.headers['authorization']);
-
-	await magic.token.validate(token);
-	const {email} = await magic.users.getMetadataByToken(token);
-
-
-	const userByEmail = await getUserByEmail(email)
-
-		// TODO: Use this to validate token https://magic.link/docs/admin-sdk/node/api-reference#validate
-
+		const body = JSON.parse(request.body);
+	const metaData = await magic.users.getMetadataByIssuer(body.issuer);
+	const userByEmail = await getUserByEmail(metaData.email)
 
 		return {
 			status: 200,
@@ -26,7 +19,7 @@ export const get = async(req: Request): Promise<any> => {
 			})
 		};
 	} catch (err) {
-		console.error(err);
+		console.error('db/user get error', err);
 		return {
 		Headers: {},
 			status: 500,
