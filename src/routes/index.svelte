@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+
 	import Protected from '$lib/Protected.svelte';
 	import { store as authStore } from '$lib/stores/auth';
 
@@ -18,6 +20,10 @@
 	$: {
 		if (auth.user) {
 			UserProfile = fetchUser(auth.user.issuer);
+		}
+
+		if (auth.user === null) {
+			goto('/auth');
 		}
 	}
 </script>
