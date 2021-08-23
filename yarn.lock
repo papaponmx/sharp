@@ -2629,11 +2629,6 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-svelte-heatmap@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/svelte-heatmap/-/svelte-heatmap-1.0.2.tgz#435fbadd409e8308a3f39070b67870f554acac14"
-  integrity sha512-qVsJj/Y/FQCjYJ2A7QU/v87FjGFjWqrTIb+qPumrudzH5w6D5WoubHF7Q2g38naJry4ADO1I0K29UuC86t5lJw==
-
 svelte-hmr@^0.14.7:
   version "0.14.7"
   resolved "https://registry.yarnpkg.com/svelte-hmr/-/svelte-hmr-0.14.7.tgz#7fa8261c7b225d9409f0a86f3b9ea5c3ca6f6607"
