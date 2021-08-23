@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { browser } from '$app/env';
-
 	import { goto } from '$app/navigation';
 
 	import Protected from '$lib/Protected.svelte';
 	import { store as authStore } from '$lib/stores/auth';
+	import { options } from '$lib/mocks/heatmap-data';
+	import { onMount } from 'svelte';
 
 	let UserProfile;
+	let ApexCharts;
 	const fetchUser = (issuer) =>
 		fetch(`/api/db/user`, {
 			method: 'POST',
@@ -28,6 +30,15 @@
 			goto('/auth');
 		}
 	}
+
+	onMount(async () => {
+		ApexCharts = (await import('apexcharts')).default;
+		const chart = new ApexCharts(
+			document.querySelector('#workout-frequency-chart-container'),
+			options
+		);
+		chart.render();
+	});
 </script>
 
 <svelte:head>
@@ -49,6 +60,6 @@
 
 		<p>You are login, therefore you can see this protected content</p>
 
-		<div id="workout-frequency-chart-container" class="bg-gray-300 h-36 w-full " />
+		<div id="workout-frequency-chart-container" class="bg-gray-800 text-gray-200 h-36 w-full " />
 	</Protected>
 </section>
