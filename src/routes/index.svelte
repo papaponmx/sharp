@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { browser } from '$app/env';
+
 	import { goto } from '$app/navigation';
 
 	import Protected from '$lib/Protected.svelte';
@@ -22,7 +24,7 @@
 			UserProfile = fetchUser(auth.user.issuer);
 		}
 
-		if (auth.user === null) {
+		if (browser && auth.user === null) {
 			goto('/auth');
 		}
 	}
@@ -32,13 +34,21 @@
 	<title>Home</title>
 </svelte:head>
 
-<section>
+<section
+	class="bg-gray-800 h-screen	w-full
+	flex flex-col justify-center items-center text-gray-100
+"
+>
 	<h1 class="text-2xl text-center my-8 uppercase text-white">Sharp</h1>
 
-	{#await UserProfile then UserProfile}
-		<h2>{JSON.stringify(UserProfile, null, 2)}</h2>
-		<div>User Profile is not loaded</div>
-	{/await}
+	<Protected>
+		{#await UserProfile then UserProfile}
+			<h2>{JSON.stringify(UserProfile, null, 2)}</h2>
+			<div>User Profile is not loaded</div>
+		{/await}
 
-	<Protected>You are login, therefore you can see this protected content</Protected>
+		<p>You are login, therefore you can see this protected content</p>
+
+		<div id="workout-frequency-chart-container" class="bg-gray-300 h-36 w-full " />
+	</Protected>
 </section>
