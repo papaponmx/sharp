@@ -11,3 +11,4 @@ export const faunaDefaultOptions = {
 };
 
 export * from './user-by-id'
+export * from './add-workout-day'
