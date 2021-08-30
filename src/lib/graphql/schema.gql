@@ -8,11 +8,15 @@ type WorkoutDay {
   date: Date @unique
   notes: String
   didWorkout: Boolean!
+  user: User @relation
+  userEmail: String!
   workoutHistory: WorkoutHistory @relation
 }
 
 type WorkoutHistory {
   days: [WorkoutDay]
+  user: User @relation
+  userEmail: String!
 }
 
 type User {
@@ -22,8 +26,10 @@ type User {
   name: String
   singUpDate: Date!
   userType: String!
+  workoutHistory: WorkoutHistory @relation
 }
 
 type Query {
   userByEmail(email: String!): User
+  userWorkoutHistory(userEmail: String!): WorkoutHistory
 }
