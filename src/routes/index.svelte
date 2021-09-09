@@ -6,6 +6,7 @@
 	import { store as authStore } from '$lib/stores/auth';
 	import { options } from '$lib/mocks/heatmap-data';
 	import { onMount } from 'svelte';
+	import LogWorkoutDay from '$lib/components/log-workout-day.svelte';
 
 	let UserProfile;
 	let ApexCharts;
@@ -47,18 +48,17 @@
 
 <section
 	class="bg-gray-800 h-screen	w-full
-	flex flex-col justify-center items-center text-gray-100
+flex flex-col justify-center items-center text-gray-100
 "
 >
 	<h1 class="text-2xl text-center my-8 uppercase text-white">Sharp</h1>
 
 	<Protected>
 		{#await UserProfile then UserProfile}
-			<h2>{JSON.stringify(UserProfile, null, 2)}</h2>
-			<div>User Profile is not loaded</div>
+			<h2 class="mb-4">Hello, {UserProfile.user.name ?? ''}</h2>
 		{/await}
 
-		<p>You are login, therefore you can see this protected content</p>
+		<LogWorkoutDay />
 
 		<div id="workout-frequency-chart-container" class="bg-gray-800 text-gray-200 h-36 w-full " />
 	</Protected>
